@@ -1,0 +1,70 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "eufaturo/idempotency-middleware",
+    "type": "library",
+    "description": "Idempotency middleware for your Laravel API.",
+    "keywords": [
+        "laravel",
+        "idempotency",
+        "middleware"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "illuminate/cache": "^12.0",
+        "illuminate/contracts": "^12.0",
+        "illuminate/http": "^12.0",
+        "illuminate/support": "^12.0",
+        "nesbot/carbon": "^3.9",
+        "ramsey/uuid": "^4.8",
+        "symfony/http-foundation": "^7.3"
+    },
+    "require-dev": {
+        "eufaturo/coding-standards": "dev-main",
+        "orchestra/testbench": "^10.0",
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Eufaturo\\IdempotencyMiddleware\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Eufaturo\\IdempotencyMiddleware\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit -c phpunit.dist.xml",
+        "test:coverage": [
+            "@putenv XDEBUG_MODE=coverage",
+            "./vendor/bin/phpunit -c phpunit-coverage.dist.xml"
+        ],
+        "ecs:fix": "./vendor/bin/ecs --fix",
+        "ecs:check": "./vendor/bin/ecs",
+        "phpstan:check": "./vendor/bin/phpstan analyse --ansi",
+        "phpstan:generate-baseline":  "./vendor/bin/phpstan --generate-baseline",
+        "rector:fix": "./vendor/bin/rector process --ansi",
+        "rector:check": "./vendor/bin/rector process --ansi --dry-run"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "eufaturo/coding-standards": true
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.0.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Eufaturo\\IdempotencyMiddleware\\IdempotencyServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable"
+}
