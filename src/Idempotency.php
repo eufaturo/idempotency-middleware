@@ -57,7 +57,7 @@ readonly class Idempotency
             $cache = $this->cache->get($this->getCacheKey($request));
 
             return $this->response->make($cache['body'], $cache['status'], array_merge($cache['headers'], [
-                $this->getMainHeaderName()     => $this->getIdempotencyKey($request),
+                $this->getMainHeaderName() => $this->getIdempotencyKey($request),
                 $this->getRepeatedHeaderName() => $this->getIdempotencyKey($request),
             ]));
         }
@@ -132,10 +132,10 @@ readonly class Idempotency
 
         if ($response->getStatusCode() !== Response::HTTP_UNPROCESSABLE_ENTITY) {
             $this->cache->put($this->getCacheKey($request), [
-                'body'         => $response->getContent(),
-                'status'       => $response->getStatusCode(),
-                'headers'      => $response->headers->all(),
-                'path'         => $request->path(),
+                'body' => $response->getContent(),
+                'status' => $response->getStatusCode(),
+                'headers' => $response->headers->all(),
+                'path' => $request->path(),
                 'request_body' => $request->getContent(),
             ], CarbonImmutable::now()->addMinutes($this->getExpirationTime()));
         }
