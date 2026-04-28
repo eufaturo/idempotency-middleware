@@ -2,8 +2,8 @@ name: Code Analysis
 
 on:
   pull_request:
-  schedule:
-    - cron: '0 9 * * *'
+  # schedule:
+  #   - cron: '0 9 * * *'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -30,7 +30,7 @@ jobs:
 
     name: ${{ matrix.actions.name }} on PHP ${{ matrix.php }}
 
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2404
 
     steps:
       - name: Checkout Code
@@ -42,7 +42,7 @@ jobs:
         run: bash ${PWD}/.github/scripts/setup-php.sh
 
       - name: Cache dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.composer/cache/files
           key: composer-dependencies-php-${{ matrix.php }}-${{ hashFiles('composer.json') }}
@@ -51,8 +51,6 @@ jobs:
         run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
       - name: Install Composer dependencies
-        env:
-          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{secrets.EUFATURO_BOT_PAT}}"} }'
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@4.0.0
 
       - run: ${{ matrix.actions.run }}
